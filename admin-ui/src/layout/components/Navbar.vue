@@ -58,15 +58,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "@/components/Breadcrumb";
-import TopNav from "@/components/TopNav";
-import Hamburger from "@/components/Hamburger";
-import Screenfull from "@/components/Screenfull";
-import SizeSelect from "@/components/SizeSelect";
-import Search from "@/components/HeaderSearch";
-import MeiMeiGit from "@/components/MeiMei/Git";
-import MeiMeiDoc from "@/components/MeiMei/Doc";
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import TopNav from '@/components/TopNav'
+import Hamburger from '@/components/Hamburger'
+import Screenfull from '@/components/Screenfull'
+import SizeSelect from '@/components/SizeSelect'
+import Search from '@/components/HeaderSearch'
+import MeiMeiGit from '@/components/MeiMei/Git'
+import MeiMeiDoc from '@/components/MeiMei/Doc'
 export default {
   components: {
     Breadcrumb,
@@ -79,43 +79,43 @@ export default {
     MeiMeiDoc,
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "device"]),
+    ...mapGetters(['sidebar', 'avatar', 'device']),
     setting: {
       get() {
-        return this.$store.state.settings.showSettings;
+        return this.$store.state.settings.showSettings
       },
       set(val) {
-        this.$store.dispatch("settings/changeSetting", {
-          key: "showSettings",
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'showSettings',
           value: val,
-        });
+        })
       },
     },
     topNav: {
       get() {
-        return this.$store.state.settings.topNav;
+        return this.$store.state.settings.topNav
       },
     },
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      this.$confirm("确定注销并退出系统吗？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('确定注销并退出系统吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
-          this.$store.dispatch("LogOut").then(() => {
-            location.reload();
-          });
+          this.$store.dispatch('LogOut').then(() => {
+            location.reload()
+          })
         })
-        .catch(() => {});
+        .catch(() => {})
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

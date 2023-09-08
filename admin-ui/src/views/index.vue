@@ -17,11 +17,10 @@
 
 <script>
 export default {
-  name: "Index",
+  name: 'Index',
   data() {
-    return {};
+    return {}
   },
   methods: {},
-};
+}
 </script>
-

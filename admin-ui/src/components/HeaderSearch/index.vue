@@ -1,6 +1,10 @@
 <template>
-  <div :class="{'show':show}" class="header-search">
-    <svg-icon class-name="search-icon" icon-class="search" @click.stop="click" />
+  <div :class="{ show: show }" class="header-search">
+    <svg-icon
+      class-name="search-icon"
+      icon-class="search"
+      @click.stop="click"
+    />
     <el-select
       ref="headerSearchSelect"
       v-model="search"
@@ -12,7 +16,12 @@
       class="header-search-select"
       @change="change"
     >
-      <el-option v-for="option in options" :key="option.item.path" :value="option.item" :label="option.item.title.join(' > ')" />
+      <el-option
+        v-for="option in options"
+        :key="option.item.path"
+        :value="option.item"
+        :label="option.item.title.join(' > ')"
+      />
     </el-select>
   </div>
 </template>
@@ -31,13 +40,13 @@ export default {
       options: [],
       searchPool: [],
       show: false,
-      fuse: undefined
+      fuse: undefined,
     }
   },
   computed: {
     routes() {
       return this.$store.getters.permission_routes
-    }
+    },
   },
   watch: {
     routes() {
@@ -52,7 +61,7 @@ export default {
       } else {
         document.body.removeEventListener('click', this.close)
       }
-    }
+    },
   },
   mounted() {
     this.searchPool = this.generateRoutes(this.routes)
@@ -70,11 +79,11 @@ export default {
       this.show = false
     },
     change(val) {
-      const path = val.path;
-      if(this.ishttp(val.path)) {
+      const path = val.path
+      if (this.ishttp(val.path)) {
         // http(s):// 路径新窗口打开
-        const pindex = path.indexOf("http");
-        window.open(path.substr(pindex, path.length), "_blank");
+        const pindex = path.indexOf('http')
+        window.open(path.substr(pindex, path.length), '_blank')
       } else {
         this.$router.push(val.path)
       }
@@ -92,13 +101,16 @@ export default {
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
-        keys: [{
-          name: 'title',
-          weight: 0.7
-        }, {
-          name: 'path',
-          weight: 0.3
-        }]
+        keys: [
+          {
+            name: 'title',
+            weight: 0.7,
+          },
+          {
+            name: 'path',
+            weight: 0.3,
+          },
+        ],
       })
     },
     // Filter out the routes that can be displayed in the sidebar
@@ -108,11 +120,15 @@ export default {
 
       for (const router of routes) {
         // skip hidden router
-        if (router.hidden) { continue }
+        if (router.hidden) {
+          continue
+        }
 
         const data = {
-          path: !this.ishttp(router.path) ? path.resolve(basePath, router.path) : router.path,
-          title: [...prefixTitle]
+          path: !this.ishttp(router.path)
+            ? path.resolve(basePath, router.path)
+            : router.path,
+          title: [...prefixTitle],
         }
 
         if (router.meta && router.meta.title) {
@@ -127,7 +143,11 @@ export default {
 
         // recursive child routes
         if (router.children) {
-          const tempRoutes = this.generateRoutes(router.children, data.path, data.title)
+          const tempRoutes = this.generateRoutes(
+            router.children,
+            data.path,
+            data.title
+          )
           if (tempRoutes.length >= 1) {
             res = [...res, ...tempRoutes]
           }
@@ -144,8 +164,8 @@ export default {
     },
     ishttp(url) {
       return url.indexOf('http://') !== -1 || url.indexOf('https://') !== -1
-    }
-  }
+    },
+  },
 }
 </script>
 

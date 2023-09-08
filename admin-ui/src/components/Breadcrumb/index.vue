@@ -18,78 +18,78 @@ export default {
   data() {
     return {
       levelList: null,
-    };
+    }
   },
   watch: {
     $route(route) {
       // if you go to the redirect page, do not update the breadcrumbs
-      if (route.path.startsWith("/redirect/")) {
-        return;
+      if (route.path.startsWith('/redirect/')) {
+        return
       }
-      this.getBreadcrumb();
+      this.getBreadcrumb()
     },
   },
   created() {
-    this.getBreadcrumb();
+    this.getBreadcrumb()
   },
   methods: {
     getBreadcrumb() {
-      let matched = [];
-      const router = this.$route;
-      const pathNum = this.findPathNum(router.path);
+      let matched = []
+      const router = this.$route
+      const pathNum = this.findPathNum(router.path)
       // 当前菜单的上级目录超过两个时
       // (route中matched记录只保留两层, 故两层以上通过菜单数组sidebarRouters进行遍历查找)
       if (pathNum > 2) {
-        const reg = /\/\w+/gi;
+        const reg = /\/\w+/gi
         const pathList = router.path.match(reg).map((item, index) => {
-          if (index !== 0) item = item.slice(1);
-          return item;
-        });
-        this.getMatched(pathList, this.$store.getters.sidebarRouters, matched);
+          if (index !== 0) item = item.slice(1)
+          return item
+        })
+        this.getMatched(pathList, this.$store.getters.sidebarRouters, matched)
       } else {
-        matched = router.matched.filter((item) => item.meta && item.meta.title);
+        matched = router.matched.filter((item) => item.meta && item.meta.title)
       }
       if (!this.isDashboard(matched[0])) {
-        matched = [{ path: "/index", meta: { title: "首页" } }].concat(matched);
+        matched = [{ path: '/index', meta: { title: '首页' } }].concat(matched)
       }
       this.levelList = matched.filter(
         (item) => item.meta && item.meta.title && item.meta.breadcrumb !== false
-      );
+      )
     },
-    findPathNum(str, char = "/") {
-      let index = str.indexOf(char);
-      let num = 0;
+    findPathNum(str, char = '/') {
+      let index = str.indexOf(char)
+      let num = 0
       while (index !== -1) {
-        num++;
-        index = str.indexOf(char, index + 1);
+        num++
+        index = str.indexOf(char, index + 1)
       }
-      return num;
+      return num
     },
     getMatched(pathList, routeList, matched) {
-      let data = routeList.find((item) => item.path == pathList[0]);
-      matched.push(data);
+      let data = routeList.find((item) => item.path == pathList[0])
+      matched.push(data)
       if (data.children && pathList.length) {
-        pathList.shift();
-        this.getMatched(pathList, data.children, matched);
+        pathList.shift()
+        this.getMatched(pathList, data.children, matched)
       }
     },
     isDashboard(route) {
-      const name = route && route.name;
+      const name = route && route.name
       if (!name) {
-        return false;
+        return false
       }
-      return name.trim() === "Index";
+      return name.trim() === 'Index'
     },
     handleLink(item) {
-      const { redirect, path } = item;
+      const { redirect, path } = item
       if (redirect) {
-        this.$router.push(redirect);
-        return;
+        this.$router.push(redirect)
+        return
       }
-      this.$router.push(path);
+      this.$router.push(path)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

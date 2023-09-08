@@ -9,13 +9,13 @@ export default {
   name: 'RuoYiDoc',
   data() {
     return {
-      url: 'https://87789771.github.io/#/'
+      url: 'https://87789771.github.io/#/',
     }
   },
   methods: {
     goto() {
       window.open(this.url)
-    }
-  }
+    },
+  },
 }
 </script>
